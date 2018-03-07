@@ -4,7 +4,7 @@ import java.lang.Math._
 
 trait Color {
   def lab: LAB
-  def lch: LCH
+  def hcl: HCL
   def rgb: RGB
 
   def distanceTo(that: Color): Double = ColorDistance.ciede2000(this.lab, that.lab)
@@ -26,7 +26,7 @@ final case class RGB(r: Double, g: Double, b: Double) extends Color {
     val lab = ColorConversion.rgbToLAB(r, g, b)
     LAB(lab(0), lab(1), lab(2))
   }
-  override lazy val lch = lab.lch
+  override lazy val hcl = lab.hcl
 }
 
 object RGB {
@@ -56,10 +56,10 @@ final case class LAB(l: Double, a: Double, b: Double, hueHint: Double = PI) exte
   private def isGray = a == 0 && b == 0
 
   override def lab = this
-  override lazy val lch = {
+  override lazy val hcl = {
     val chroma = sqrt(a * a + b * b)
     val hue = ((PI * 2) + atan2(b, a)) % (PI * 2)
-    LCH(l, chroma, if (isGray) hueHint else hue)
+    HCL(if (isGray) hueHint else hue, chroma, l)
   }
   override lazy val rgb: RGB = {
     val rgb = ColorConversion.labToRGB(l, a, b)
@@ -68,7 +68,7 @@ final case class LAB(l: Double, a: Double, b: Double, hueHint: Double = PI) exte
 }
 
 
-final case class LCH(l: Double, c: Double, h: Double) extends Color {
+final case class HCL(h: Double, c: Double, l: Double) extends Color {
   def luminance = l
   def chroma = c
   def hue = h
@@ -78,6 +78,6 @@ final case class LCH(l: Double, c: Double, h: Double) extends Color {
     val b = sin(h) * c
     LAB(l, a, b, hueHint = h)
   }
-  override def lch = this
+  override def hcl = this
   override lazy val rgb: RGB = lab.rgb
 }
