@@ -29,6 +29,26 @@ final case class RGB(r: Double, g: Double, b: Double) extends Color {
   override lazy val lch = lab.lch
 }
 
+object RGB {
+  def apply(s:String):RGB = {
+    import Integer.parseInt
+
+    if(s.length == 6) {
+      val rs = s.substring(0,2)
+      val gs = s.substring(2,4)
+      val bs = s.substring(4,6)
+      new RGB(parseInt(rs, 16), parseInt(gs, 16), parseInt(bs, 16))
+    } else if(s.length == 7) {
+      val rs = s.substring(1,3)
+      val gs = s.substring(3,5)
+      val bs = s.substring(5,7)
+      new RGB(parseInt(rs, 16), parseInt(gs, 16), parseInt(bs, 16))
+    } else {
+      throw new IllegalArgumentException("Use RRGGBB or #RRGGBB")
+    }
+  }
+}
+
 
 final case class LAB(l: Double, a: Double, b: Double, hueHint: Double = PI) extends Color {
   def luminance = l
