@@ -19,7 +19,7 @@ final case class RGB(r: Double, g: Double, b: Double) extends Color {
   @inline def gi = g.toInt
   @inline def bi = b.toInt
   override def toCSS = s"rgb($ri, $gi, $bi)"
-  override def toHex = "%02X%02X%02X" format (ri, gi, bi)
+  override def toHex = "#%02X%02X%02X" format (ri, gi, bi)
 
   override def rgb = this
   override lazy val lab = {
