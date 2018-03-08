@@ -1,6 +1,5 @@
 lazy val commonSettings = Seq(
   organization := "com.github.fdietze",
-  name         := "colorado",
   version      := "master-SNAPSHOT",
 
   scalaVersion := "2.12.4",
@@ -45,6 +44,7 @@ lazy val commonSettings = Seq(
   """,
 )
 
+enablePlugins(ScalaJSPlugin)
 
 lazy val root = (project in file("."))
   .aggregate(coloradoJS, coloradoJVM)
@@ -55,9 +55,10 @@ lazy val root = (project in file("."))
   )
 
 lazy val colorado = crossProject.crossType(CrossType.Pure)
-  .enablePlugins(ScalaJSPlugin)
   .settings(commonSettings)
   .settings(
+    name         := "colorado",
+
     libraryDependencies ++=
       Deps.scalaTest.value % Test ::
       Nil
