@@ -48,6 +48,10 @@ lazy val commonSettings = Seq(
 
 lazy val root = (project in file("."))
   .aggregate(coloradoJS, coloradoJVM)
+  .settings(
+    publish := {},
+    publishLocal := {}
+  )
 
 lazy val colorado = crossProject.crossType(CrossType.Pure)
   .enablePlugins(ScalaJSPlugin)
