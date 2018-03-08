@@ -48,6 +48,7 @@ lazy val commonSettings = Seq(
 
 lazy val root = (project in file("."))
   .aggregate(coloradoJS, coloradoJVM)
+  .settings(commonSettings)
   .settings(
     publish := {},
     publishLocal := {}
