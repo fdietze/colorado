@@ -15,9 +15,9 @@ trait Color {
 
 
 final case class RGB(r: Double, g: Double, b: Double) extends Color {
-  @inline def ri = r.toInt
-  @inline def gi = g.toInt
-  @inline def bi = b.toInt
+  @inline def ri = (r*255).toInt
+  @inline def gi = (g*255).toInt
+  @inline def bi = (b*255).toInt
   override def toCSS = s"rgb($ri, $gi, $bi)"
   override def toHex = "#%02X%02X%02X" format (ri, gi, bi)
 
@@ -30,6 +30,7 @@ final case class RGB(r: Double, g: Double, b: Double) extends Color {
 }
 
 object RGB {
+  def apply(r:Int, g:Int, b:Int):RGB = RGB(r / 255.0, g / 255.0, b / 255.0)
   def apply(s:String):RGB = {
     import Integer.parseInt
 
@@ -37,12 +38,12 @@ object RGB {
       val rs = s.substring(0,2)
       val gs = s.substring(2,4)
       val bs = s.substring(4,6)
-      new RGB(parseInt(rs, 16), parseInt(gs, 16), parseInt(bs, 16))
+      RGB(parseInt(rs, 16), parseInt(gs, 16), parseInt(bs, 16))
     } else if(s.length == 7) {
       val rs = s.substring(1,3)
       val gs = s.substring(3,5)
       val bs = s.substring(5,7)
-      new RGB(parseInt(rs, 16), parseInt(gs, 16), parseInt(bs, 16))
+      RGB(parseInt(rs, 16), parseInt(gs, 16), parseInt(bs, 16))
     } else {
       throw new IllegalArgumentException("Use RRGGBB or #RRGGBB")
     }

@@ -65,32 +65,24 @@ object ColorConversion {
     G = csrgb(G)
     B = csrgb(B)
 
-    val Ri = (R * 255).max(0).min(255)
-    val Gi = (G * 255).max(0).min(255)
-    val Bi = (B * 255).max(0).min(255)
+    val Ri = R.max(0.0).min(1.0)
+    val Gi = G.max(0.0).min(1.0)
+    val Bi = B.max(0.0).min(1.0)
 
     Array(Ri, Gi, Bi)
   }
 
-  @inline final def rgbToLAB(ri: Double, gi: Double, bi: Double): Array[Double] = {
+  @inline final def rgbToLAB(sr: Double, sg: Double, sb: Double): Array[Double] = {
+    // accepts sRGB values r,g,b in range [0,1]
     // https://en.wikipedia.org/wiki/SRGB#The_reverse_transformation
 
-    // sRGB:
-    var R = ri / 255.0
-    var G = gi / 255.0
-    var B = bi / 255.0
+    val R = clinear(sr)
+    val G = clinear(sg)
+    val B = clinear(sb)
 
-    R = clinear(R)
-    G = clinear(G)
-    B = clinear(B)
-
-    var X = R * 0.4124 + G * 0.3576 + B * 0.1805
-    var Y = R * 0.2126 + G * 0.7152 + B * 0.0722
-    var Z = R * 0.0193 + G * 0.1192 + B * 0.9505
-
-    X = X * 100.0
-    Y = Y * 100.0
-    Z = Z * 100.0
+    val X = (R * 0.4124 + G * 0.3576 + B * 0.1805) * 100.0
+    val Y = (R * 0.2126 + G * 0.7152 + B * 0.0722) * 100.0
+    val Z = (R * 0.0193 + G * 0.1192 + B * 0.9505) * 100.0
 
     // https://en.wikipedia.org/wiki/Lab_color_space#Forward_transformation
     val l = 116.0 * f(Y / Yn) - 16.0
