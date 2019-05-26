@@ -2,8 +2,8 @@ lazy val commonSettings = Seq(
   organization := "com.github.fdietze",
   version      := "master-SNAPSHOT",
 
-  scalaVersion := "2.12.4",
-  crossScalaVersions := Seq("2.11.12", "2.12.4"),
+  scalaVersion := "2.12.8",
+  crossScalaVersions := Seq("2.11.12", "2.12.8"),
 
   resolvers ++= (
     ("jitpack" at "https://jitpack.io") ::

@@ -50,7 +50,6 @@ object RGB {
   }
 }
 
-
 final case class LAB(l: Double, a: Double, b: Double, hueHint: Double = PI) extends Color {
   def luminance = l
 
