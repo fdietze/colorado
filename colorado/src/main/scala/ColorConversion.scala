@@ -26,20 +26,6 @@ object ColorConversion {
       0.12841854934601665 * (t - 0.13793103448275862) //3*d^2(t-4/29)
   }
 
-  @inline final private def csrgb(clin: Double) = {
-    if (clin <= 0.0031308)
-      12.92 * clin
-    else
-      1.055 * pow(clin, 0.4166666666666667) - 0.055
-  }
-
-  @inline final private def gamma_inverse(csrgb: Double) = {
-    if (csrgb <= 0.04045)
-      csrgb * 0.07739938080495357 // csrgb/12.92
-    else
-      pow((csrgb + 0.055) * 0.94786729857819905213, 2.4) // (csrgb+0.055/1.055)^2.4
-  }
-
   final def labToRGB(l: Double, a: Double, b: Double): Array[Double] = {
     // https://en.wikipedia.org/wiki/Lab_color_space#Reverse_transformation
     var Y = (l + 16) / 116
@@ -55,19 +41,9 @@ object ColorConversion {
     Y = Y / 100 //Y from 0 to 100.000
     Z = Z / 100 //Z from 0 to 108.883
 
-    // linear rgb:
-    var R = X * 3.2406 + Y * -1.5372 + Z * -0.4986
-    var G = X * -0.9689 + Y * 1.8758 + Z * 0.0415
-    var B = X * 0.0557 + Y * -0.2040 + Z * 1.0570
-
-    R = csrgb(R)
-    G = csrgb(G)
-    B = csrgb(B)
-
-    val Ri = R.max(0.0).min(1.0)
-    val Gi = G.max(0.0).min(1.0)
-    val Bi = B.max(0.0).min(1.0)
-
+    RGB.fromXYZ(X,Y,Z){ (R,G,B) =>
+    
+    }
     Array(Ri, Gi, Bi)
   }
 
