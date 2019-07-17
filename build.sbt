@@ -1,9 +1,12 @@
+// shadow sbt-scalajs' crossProject and CrossType from Scala.js 0.6.x
+import sbtcrossproject.CrossPlugin.autoImport.{ crossProject, CrossType }
+
 lazy val commonSettings = Seq(
   organization := "com.github.fdietze",
-  version      := "master-SNAPSHOT",
+  version := "master-SNAPSHOT",
 
-  scalaVersion := "2.12.4",
-  crossScalaVersions := Seq("2.11.12", "2.12.4"),
+  scalaVersion := crossScalaVersions.value.last,
+  crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0"),
 
   resolvers ++= (
     ("jitpack" at "https://jitpack.io") ::
@@ -17,27 +20,24 @@ lazy val commonSettings = Seq(
     "-explaintypes" ::
     "-feature" ::
     "-language:_" ::
-    "-Xfuture" ::
     "-Xlint" ::
-    "-Ypartial-unification" ::
-    "-Yno-adapted-args" ::
-    "-Ywarn-infer-any" ::
-    "-Ywarn-value-discard" ::
-    "-Ywarn-nullary-override" ::
-    "-Ywarn-nullary-unit" ::
     Nil,
 
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, 12)) =>
         "-Ywarn-extra-implicit" ::
+        "-Ypartial-unification" ::
+        "-Yno-adapted-args" ::
+        "-Ywarn-infer-any" ::
+        "-Ywarn-value-discard" ::
+        "-Ywarn-nullary-override" ::
+        "-Ywarn-nullary-unit" ::
         Nil
       case _ =>
         Nil
     }
   },
-
-  addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.6"),
 
   initialCommands in console := """
   import colorado._
@@ -46,31 +46,19 @@ lazy val commonSettings = Seq(
 
 enablePlugins(ScalaJSPlugin)
 
-lazy val root = (project in file("."))
-  .aggregate(coloradoJS, coloradoJVM)
+lazy val colorado = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Pure)
   .settings(commonSettings)
   .settings(
-    publish := {},
-    publishLocal := {}
-  )
-
-lazy val colorado = crossProject.crossType(CrossType.Pure)
-  .settings(commonSettings)
-  .settings(
-    name         := "colorado",
+    name := "colorado",
 
     libraryDependencies ++=
       Deps.scalaTest.value % Test ::
       Nil
   )
   .jsSettings(
-    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalacOptions ++= git.gitHeadCommit.value.map { headCommit =>
       val local = baseDirectory.value.toURI
       val remote = s"https://raw.githubusercontent.com/fdietze/colorado/${headCommit}/"
       s"-P:scalajs:mapSourceURI:$local->$remote"
     }
   )
-
-lazy val coloradoJS = colorado.js
-lazy val coloradoJVM = colorado.jvm
