@@ -37,7 +37,7 @@ lazy val commonSettings = Seq(
     }
   },
 
-  addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.6"),
+  addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.10"),
 
   initialCommands in console := """
   import colorado._
