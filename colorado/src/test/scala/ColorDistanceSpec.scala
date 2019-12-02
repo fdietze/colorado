@@ -1,8 +1,10 @@
 package colorado
 
 import org.scalatest._
+import org.scalatest.freespec.AsyncFreeSpec
+import org.scalatest.matchers.must.Matchers
 
-class ColorDistanceSpec extends AsyncFreeSpec with MustMatchers {
+class ColorDistanceSpec extends AsyncFreeSpec with Matchers {
   "CIEDE2000" in {
     import ColorDistance.ciede2000
 
