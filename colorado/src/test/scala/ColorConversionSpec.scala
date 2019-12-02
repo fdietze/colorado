@@ -2,8 +2,10 @@ package colorado
 
 import org.scalatest._
 import ColorConversion._
+import org.scalatest.freespec.AsyncFreeSpec
+import org.scalatest.matchers.must.Matchers
 
-class ColorConversionSpec extends AsyncFreeSpec with MustMatchers {
+class ColorConversionSpec extends AsyncFreeSpec with Matchers {
   "LAB to RGB and back" in {
     def test(l:Double,a:Double,b:Double, rgb:Array[Double]) = {
       val accuracy = 0.02
