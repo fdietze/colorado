@@ -18,5 +18,13 @@ class ColorSpec extends AsyncFreeSpec with Matchers {
     "to hex string" in {
       RGB(0xA1, 0xB1, 0xC1).toHex mustEqual "#A1B1C1"
     }
+
+    "to css" in {
+      RGB(17, 28, 39).toCSS mustEqual "rgb(17,28,39)"
+    }
+
+    "to css with alpha" in {
+      RGB(17, 28, 39).toCSS(0.2) mustEqual "rgba(17,28,39,0.2)"
+    }
   }
 }

@@ -10,6 +10,7 @@ trait Color {
   def distanceTo(that: Color): Double = ColorDistance.ciede2000(this.lab, that.lab)
 
   def toCSS: String = rgb.toCSS
+  def toCSS(a:Double): String = rgb.toCSS(a)
   def toHex: String = rgb.toHex
 }
 
@@ -18,7 +19,8 @@ final case class RGB(r: Double, g: Double, b: Double) extends Color {
   @inline def ri = (r*255).toInt
   @inline def gi = (g*255).toInt
   @inline def bi = (b*255).toInt
-  override def toCSS = s"rgb($ri, $gi, $bi)"
+  override def toCSS = s"rgb($ri,$gi,$bi)"
+  override def toCSS(a:Double) = s"rgba($ri,$gi,$bi,$a)"
   override def toHex = "#%02X%02X%02X" format (ri, gi, bi)
 
   override def rgb = this
