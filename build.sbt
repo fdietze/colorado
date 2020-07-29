@@ -1,12 +1,9 @@
-// shadow sbt-scalajs' crossProject and CrossType from Scala.js 0.6.x
-import sbtcrossproject.CrossPlugin.autoImport.{ crossProject, CrossType }
-
 lazy val commonSettings = Seq(
   organization := "com.github.fdietze",
   version := "master-SNAPSHOT",
 
   scalaVersion := crossScalaVersions.value.last,
-  crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1"),
+  crossScalaVersions := Seq("2.11.12", "2.12.12", "2.13.3"),
 
   resolvers ++= (
     ("jitpack" at "https://jitpack.io") ::
