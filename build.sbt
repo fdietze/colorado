@@ -3,7 +3,7 @@ lazy val commonSettings = Seq(
   version := "master-SNAPSHOT",
 
   scalaVersion := crossScalaVersions.value.last,
-  crossScalaVersions := Seq("2.11.12", "2.12.12", "2.13.3"),
+  crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.3"),
 
   resolvers ++= (
     ("jitpack" at "https://jitpack.io") ::
