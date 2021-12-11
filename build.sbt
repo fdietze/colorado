@@ -36,7 +36,7 @@ lazy val commonSettings = Seq(
     }
   },
 
-  initialCommands in console := """
+  (console / initialCommands) := """
   import colorado._
   """,
 )
