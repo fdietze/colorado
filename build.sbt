@@ -1,61 +1,26 @@
 lazy val commonSettings = Seq(
-  organization := "com.github.fdietze",
-  version := "master-SNAPSHOT",
+  organization       := "com.github.fdietze",
+  version            := "master-SNAPSHOT",
+  crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.7", "3.1.0"),
+  scalaVersion       := crossScalaVersions.value.last,
+  scalacOptions --= Seq("-Xfatal-warnings"), // overwrite sbt-tpolecat setting
 
-  scalaVersion := crossScalaVersions.value.last,
-  crossScalaVersions := Seq("2.11.12", "2.12.12", "2.13.3"),
-
-  resolvers ++= (
-    ("jitpack" at "https://jitpack.io") ::
-    Nil
+  resolvers ++= Seq(
+    "jitpack" at "https://jitpack.io",
   ),
-
-  scalacOptions ++=
-    "-encoding" :: "UTF-8" ::
-    "-unchecked" ::
-    "-deprecation" ::
-    "-explaintypes" ::
-    "-feature" ::
-    "-language:_" ::
-    "-Xlint" ::
-    Nil,
-
-  scalacOptions ++= {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 12)) =>
-        "-Ywarn-extra-implicit" ::
-        "-Ypartial-unification" ::
-        "-Yno-adapted-args" ::
-        "-Ywarn-infer-any" ::
-        "-Ywarn-value-discard" ::
-        "-Ywarn-nullary-override" ::
-        "-Ywarn-nullary-unit" ::
-        Nil
-      case _ =>
-        Nil
-    }
-  },
-
-  initialCommands in console := """
+  console / initialCommands := """
   import colorado._
   """,
 )
 
 enablePlugins(ScalaJSPlugin)
 
-lazy val colorado = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Pure)
+lazy val colorado = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
   .settings(commonSettings)
   .settings(
     name := "colorado",
-
-    libraryDependencies ++=
-      Deps.scalaTest.value % Test ::
-      Nil
-  )
-  .jsSettings(
-    scalacOptions ++= git.gitHeadCommit.value.map { headCommit =>
-      val local = baseDirectory.value.toURI
-      val remote = s"https://raw.githubusercontent.com/fdietze/colorado/${headCommit}/"
-      s"-P:scalajs:mapSourceURI:$local->$remote"
-    }
+    libraryDependencies ++= Seq(
+      "org.scalatest" %%% "scalatest" % "3.2.10" % Test,
+    ),
   )
