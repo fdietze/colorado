@@ -21,6 +21,6 @@ lazy val colorado = crossProject(JSPlatform, JVMPlatform)
   .settings(
     name := "colorado",
     libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest" % "3.2.11" % Test,
+      "org.scalatest" %%% "scalatest" % "3.2.12" % Test,
     ),
   )
