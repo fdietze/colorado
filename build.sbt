@@ -1,7 +1,7 @@
 lazy val commonSettings = Seq(
   organization       := "com.github.fdietze",
   version            := "master-SNAPSHOT",
-  crossScalaVersions := Seq("2.11.12", "2.12.16", "2.13.8", "3.2.0"),
+  crossScalaVersions := Seq("2.11.12", "2.12.16", "2.13.8", "3.1.3"),
   scalaVersion       := crossScalaVersions.value.last,
   scalacOptions --= Seq("-Xfatal-warnings"), // overwrite sbt-tpolecat setting
 
