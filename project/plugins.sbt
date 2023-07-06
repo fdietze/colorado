@@ -3,6 +3,6 @@ addSbtPlugin("org.portable-scala"                % "sbt-scala-native-crossprojec
 addSbtPlugin("org.scala-js"                      % "sbt-scalajs"                   % "1.12.0")
 addSbtPlugin("com.thoughtworks.sbt-scala-js-map" % "sbt-scala-js-map"              % "4.1.1")
 
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.3.1")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.3")
 
 addSbtPlugin("com.github.sbt" % "sbt-git" % "2.0.1")
