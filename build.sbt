@@ -1,7 +1,7 @@
 lazy val commonSettings = Seq(
   organization       := "com.github.fdietze",
   version            := "master-SNAPSHOT",
-  crossScalaVersions := Seq("2.11.12", "2.12.18", "2.13.11", "3.1.3"),
+  crossScalaVersions := Seq("2.11.12", "2.12.18", "2.13.12", "3.1.3"),
   scalaVersion       := crossScalaVersions.value.last,
   scalacOptions --= Seq("-Xfatal-warnings"), // overwrite sbt-tpolecat setting
 
@@ -21,6 +21,6 @@ lazy val colorado = crossProject(JSPlatform, JVMPlatform)
   .settings(
     name := "colorado",
     libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest" % "3.2.16" % Test,
+      "org.scalatest" %%% "scalatest" % "3.2.17" % Test,
     ),
   )
