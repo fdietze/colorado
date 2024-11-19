@@ -9,7 +9,7 @@ object ColorConversion {
   val Zn = 108.883
 
   @inline final private def f(t: Double) = {
-    val d3 = pow(6.0 / 29.0, 3)
+    val d3       = pow(6.0 / 29.0, 3)
     val d2times3 = 3 * pow(6.0 / 29.0, 2)
     if (t > d3)
       pow(t, 1.0 / 3.0)
@@ -20,10 +20,10 @@ object ColorConversion {
   @inline final private def finv(t: Double) = {
     // delta = 6.0/29.0
     val t3 = pow(t, 3)
-    if (t3 > 0.008856451679035631) // t^3 > delta^3
+    if (t3 > 0.008856451679035631)                    // t^3 > delta^3
       t3
     else
-      0.12841854934601665 * (t - 0.13793103448275862) //3*d^2(t-4/29)
+      0.12841854934601665 * (t - 0.13793103448275862) // 3*d^2(t-4/29)
   }
 
   @inline final private def csrgb(clin: Double) = {
@@ -52,9 +52,9 @@ object ColorConversion {
     Z = Zn * finv(Z)
 
     // https://en.wikipedia.org/wiki/SRGB#The_forward_transformation_.28CIE_xyY_or_CIE_XYZ_to_sRGB.29
-    X = X / 100 //X from 0 to  95.047      (Observer = 2°, Illuminant = D65)
-    Y = Y / 100 //Y from 0 to 100.000
-    Z = Z / 100 //Z from 0 to 108.883
+    X = X / 100 // X from 0 to  95.047      (Observer = 2°, Illuminant = D65)
+    Y = Y / 100 // Y from 0 to 100.000
+    Z = Z / 100 // Z from 0 to 108.883
 
     // linear rgb:
     var R = X * 3.2406 + Y * -1.5372 + Z * -0.4986
